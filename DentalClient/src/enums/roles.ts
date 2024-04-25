@@ -1,6 +1,7 @@
 export enum Roles{
-  Admin,
+  AdminMain,
   Doctor,
+  FrontDesk,
   Higenist,
   DentalAssistant,
   Patient

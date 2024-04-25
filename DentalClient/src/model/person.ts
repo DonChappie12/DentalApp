@@ -5,5 +5,5 @@ export interface Person {
   Email: string,
   PhoneNumber: number,
   Address: string,
-
+  DOB: Date
 }
