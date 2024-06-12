@@ -17,6 +17,12 @@ namespace DentalWebApi.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public IActionResult GetUserbyId(int id)
+        {
+            return Ok();
+        }
+
         [HttpPost]
         public IActionResult PostUser(User user)
         {
