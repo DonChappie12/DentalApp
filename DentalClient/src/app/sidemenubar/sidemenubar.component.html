@@ -1,0 +1,14 @@
+<!-- <p>sidemenubar works!</p>
+<h3>Test</h3> -->
+<div>
+  <!-- <p-panelMenu [model]="menuItems"></p-panelMenu> -->
+  <p-menubar [model]="menuItems">
+    <div>
+      <input type="text" pInputText placeholder="Search">
+      <button *ngIf="isLoggedIn; else loggedOut" type="button" pButton label="Logout" icon="pi pi-power-off" style="margin-left:.25em"></button>
+      <ng-template #loggedOut>
+        <button type="button" pButton label="Login" icon="pi pi-power-off" style="margin-left:.25em"></button>
+      </ng-template>
+    </div>
+  </p-menubar>
+</div>

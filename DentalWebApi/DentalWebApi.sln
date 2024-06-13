@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentalWebApi", "DentalWebApi.csproj", "{F52E2A18-3152-4FBA-9865-8D52701844CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F52E2A18-3152-4FBA-9865-8D52701844CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F52E2A18-3152-4FBA-9865-8D52701844CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F52E2A18-3152-4FBA-9865-8D52701844CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F52E2A18-3152-4FBA-9865-8D52701844CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6990CFD7-56E5-43D0-AE23-8106AC9B514A}
+	EndGlobalSection
+EndGlobal
