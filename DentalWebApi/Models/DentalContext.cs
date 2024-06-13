@@ -13,5 +13,10 @@ namespace DentalWebApi.Models
         {
             
         }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Procedure> Procedures { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        
     }
 }

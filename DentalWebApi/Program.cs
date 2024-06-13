@@ -1,4 +1,5 @@
 using DentalWebApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,9 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 //Todo Uncomment this to connect to DB. Most likely going to connect to sql server (SSMS)
-// builder.Services.AddDbContext<DentalContext>().UseSqlServer(options =>{
+var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DentalContext>(options => options.UseSqlServer(dbConnectionString));
 
-// });
+// builder.Services.AddDbContext<DentalContext>(options => options.UseSqlServer(dbConnectionString));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
