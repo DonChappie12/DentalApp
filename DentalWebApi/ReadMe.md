@@ -1,5 +1,13 @@
 # Dental Web API
 
+## Running the Dental Web API (VS Code)
+To run the application run this command
+`dotnet run`
+
+An alternative that will keep watching after saving a file run this command
+`dotnet run watch`
+NOTE: This will stop the application and re-run with the new changes automatically
+
 ## Entity Framework Core tools reference - .NET Core CLI
 Before any DB (DataBase) migration run this command verify if dotnet ef is installed
 `dotnet ef`

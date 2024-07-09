@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace DentalWebApi.Models
 {
-    public class Procedure
+    public class Instrument
     {
         public int Id { get; set; }
-        public string ProcedureName { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; }
     }
 }

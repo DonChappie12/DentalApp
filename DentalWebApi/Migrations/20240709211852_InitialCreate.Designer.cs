@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalWebApi.Migrations
 {
     [DbContext(typeof(DentalContext))]
-    [Migration("20240708211321_InitialCreate")]
+    [Migration("20240709211852_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,7 +33,11 @@ namespace DentalWebApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProcedureName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
