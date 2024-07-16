@@ -24,7 +24,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<DentalContext>();
+    context.Database.Migrate();
+    // requires using Microsoft.Extensions.Configuration;
+    // Set password with the Secret Manager tool.
+    // dotnet user-secrets set SeedUserPW <pw>
 
+    // var testUserPw = builder.Configuration.GetValue<string>("SeedUserPW");
+    var testUserPw = "testPassword";
+
+    // await DataSeeder.Initialize(services, testUserPw);
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

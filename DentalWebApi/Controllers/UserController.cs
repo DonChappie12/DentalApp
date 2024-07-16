@@ -17,7 +17,7 @@ namespace DentalWebApi.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetUserbyId(int id)
         {
             return Ok();
@@ -35,7 +35,7 @@ namespace DentalWebApi.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
             return Ok();

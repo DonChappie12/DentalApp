@@ -5,7 +5,7 @@ To run the application run this command
 `dotnet run`
 
 An alternative that will keep watching after saving a file run this command
-`dotnet run watch`
+`dotnet watch run`
 NOTE: This will stop the application and re-run with the new changes automatically
 
 ## Entity Framework Core tools reference - .NET Core CLI
