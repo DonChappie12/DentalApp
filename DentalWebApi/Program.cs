@@ -13,7 +13,7 @@ builder.Services.AddDbContext<DentalContext>(options => options.UseSqlServer(dbC
 // builder.Services.AddDbContext<DentalContext>(options => options.UseSqlServer(dbConnectionString));
 
 // Identity and Authorization
-builder.Services.AddDefaultIdentity<IdentityUser<int>>()
+builder.Services.AddDefaultIdentity<User>()
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<DentalContext>();
 

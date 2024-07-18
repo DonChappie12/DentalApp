@@ -25,13 +25,17 @@ namespace DentalWebApi.Models
                 // Password is set with the following:
                 // dotnet user-secrets set SeedUserPW <pw>
                 // The admin user can do anything
+                //Todo Change Emails instead of @contoso.com 
+
+                var superAdminID = await EnsureUser(serviceProvider, testUserPw, "superadmin@contoso.com");
+                await EnsureRole(serviceProvider, superAdminID, Roles.SuperAdmin.ToString());
 
                 var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@contoso.com");
-                await EnsureRole(serviceProvider, adminID, Roles.Admins.ToString());
+                await EnsureRole(serviceProvider, adminID, Roles.Admin.ToString());
 
                 // allowed user can create and edit contacts that they create
                 var managerID = await EnsureUser(serviceProvider, testUserPw, "manager@contoso.com");
-                await EnsureRole(serviceProvider, managerID, Roles.Managers.ToString());
+                await EnsureRole(serviceProvider, managerID, Roles.Manager.ToString());
 
                 // Seed(context, adminID);
             }

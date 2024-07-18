@@ -2,11 +2,13 @@ namespace DentalWebApi.Constants
 {
     public enum Roles
     {
-        Admins,
-        Managers,
-        Doctors,
+        SuperAdmin,
+        Admin,
+        FrontDesk,
+        Doctor,
+        Manager,
         Hygienist,
         DentalAssistant,
-        Patients
+        Patient
     }
 }

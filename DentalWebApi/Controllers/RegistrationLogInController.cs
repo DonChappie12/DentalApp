@@ -18,12 +18,12 @@ namespace DentalWebApi.Controllers
 
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly DentalContext _dentalContext;
 
         public RegistrationLogInController(
             UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<IdentityRole<int>> roleManager,
             DentalContext dentalContext
         )
         {
@@ -55,12 +55,12 @@ namespace DentalWebApi.Controllers
             // var result = await _userManager.CreateAsync(newUser, registerModel.Password);
             // if(result.Succeeded) 
             // {
-            //     await _userManager.AddToRoleAsync(newUser, "Customer");
+            //     await _userManager.AddToRoleAsync(newUser, Roles.Patient);
             //     // return Unauthorized();
             //     return Ok(newUser);
             // }
 
-            return Ok();
+            return Ok(registerModel);
             // return BadRequest("User could not be created");
         }
 
