@@ -1,6 +1,7 @@
 using DentalWebApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,11 +18,31 @@ builder.Services.AddDefaultIdentity<User>()
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<DentalContext>();
 
+// * This is an implication for password requirements
+// builder.Services.Configure<IdentityOptions>(options =>
+// {
+//     // Default Password settings.
+//     options.Password.RequireDigit = true;
+//     options.Password.RequireLowercase = true;
+//     options.Password.RequireNonAlphanumeric = true;
+//     options.Password.RequireUppercase = true;
+//     options.Password.RequiredLength = 6;
+//     options.Password.RequiredUniqueChars = 1;
+// });
+
 builder.Services.AddAuthorization();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(swagger =>
+{
+    swagger.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Basic Title of Dental App",
+        Description = "Basic Description of Dental App",
+    });
+});
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())

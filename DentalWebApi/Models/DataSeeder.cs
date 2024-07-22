@@ -33,6 +33,8 @@ namespace DentalWebApi.Models
                 var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@contoso.com");
                 await EnsureRole(serviceProvider, adminID, Roles.Admin.ToString());
 
+                var doctorID = await EnsureUser(serviceProvider, testUserPw, "doctor@contoso.com");
+                await EnsureRole(serviceProvider, doctorID, Roles.Doctor.ToString());
                 // allowed user can create and edit contacts that they create
                 var managerID = await EnsureUser(serviceProvider, testUserPw, "manager@contoso.com");
                 await EnsureRole(serviceProvider, managerID, Roles.Manager.ToString());
