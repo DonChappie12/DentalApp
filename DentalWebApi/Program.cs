@@ -14,11 +14,22 @@ builder.Services.AddDbContext<DentalContext>(options => options.UseSqlServer(dbC
 // builder.Services.AddDbContext<DentalContext>(options => options.UseSqlServer(dbConnectionString));
 
 // Identity and Authorization
-builder.Services.AddDefaultIdentity<User>()
+// builder.Services.AddDefaultIdentity<User>(options =>
+// *As of .Net 8 we can set AddIdentityApiEndpoints to secure api endpoints with configuration
+// *Below config will only work if trying to create new user but requirements are not met in _userManager
+builder.Services.AddIdentityApiEndpoints<User>(options =>
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireNonAlphanumeric = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequiredLength = 6;
+        options.Password.RequiredUniqueChars = 1;
+    })
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<DentalContext>();
 
-// * This is an implication for password requirements
+// * .Net 7 or below configuration if not using AddIdentityApiEndpoints
 // builder.Services.Configure<IdentityOptions>(options =>
 // {
 //     // Default Password settings.
@@ -65,6 +76,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// app.MapIdentityApi<User>();
 
 app.UseHttpsRedirection();
 

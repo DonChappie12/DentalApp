@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DentalWebApi.Constants;
 using DentalWebApi.Models;
 using DentalWebApi.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -42,26 +43,28 @@ namespace DentalWebApi.Controllers
             }
 
             //Todo Have Register View Model be changed
-            // var userExist = await _userManager.FindByEmailAsync(registerModel.EmailAddress);
-            // if(userExist != null)
-            // {
-            //     return BadRequest($"User {registerModel.EmailAddress} already exists");
-            // }
+            var userExist = await _userManager.FindByEmailAsync(registerModel.Email);
+            if(userExist != null)
+            {
+                return BadRequest($"User {registerModel.Email} already exists");
+            }
 
-            // User newUser = new User()
-            // {
-            //     //* Write user code
-            // };
-            // var result = await _userManager.CreateAsync(newUser, registerModel.Password);
-            // if(result.Succeeded) 
-            // {
-            //     await _userManager.AddToRoleAsync(newUser, Roles.Patient);
-            //     // return Unauthorized();
-            //     return Ok(newUser);
-            // }
+            User newUser = new User()
+            {
+                //Todo Write user code
+            };
+            var result = await _userManager.CreateAsync(newUser, registerModel.Password);
+            if(result.Succeeded) 
+            {
+                await _userManager.AddToRoleAsync(newUser, Roles.Patient.ToString());
+                // return Unauthorized();
+                return Ok(newUser);
+            }
 
-            return Ok(registerModel);
-            // return BadRequest("User could not be created");
+            var errors = result.Errors;
+
+            // return Ok(registerModel);
+            return BadRequest(errors);
         }
 
         [HttpPost("login")]
