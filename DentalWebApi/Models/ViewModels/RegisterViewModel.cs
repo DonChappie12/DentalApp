@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace DentalWebApi.Models.ViewModels
 {
-    //* Currently the view model can be the same as User for now
     public class RegisterViewModel
     {
         [Required]

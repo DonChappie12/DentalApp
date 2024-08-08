@@ -1,12 +1,45 @@
+using System.Text;
 using DentalWebApi.Models;
+using DentalWebApi.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
+
+// *Adds basic JWT authentication scheme
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(opts =>
+{
+    opts.SaveToken = true;
+    // * Switch this to false if under development
+    opts.RequireHttpsMetadata = true;
+    opts.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = config["JwtSettings:Issuer"],
+        ValidAudience = config["JwtSettings:Audience"],
+        // Todo Have Jwt settings key in a secrets management system (EX: Azure key vaults)
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Key"]!)),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddTransient<IAuthService, AuthService>();
 
 // Connects to DB
 var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -67,7 +100,7 @@ using (var scope = app.Services.CreateScope())
 
     // var testUserPw = builder.Configuration.GetValue<string>("SeedUserPW");
     var testUserPw = "testPassword";
-
+    // Todo uncomment below once a set direction for JWTs
     // await DataSeeder.Initialize(services, testUserPw);
 }
 // Configure the HTTP request pipeline.
@@ -81,6 +114,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

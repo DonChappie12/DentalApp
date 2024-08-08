@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DentalWebApi.Constants;
 using DentalWebApi.Models;
 using DentalWebApi.Models.ViewModels;
+using DentalWebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -21,58 +22,62 @@ namespace DentalWebApi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly DentalContext _dentalContext;
+        private readonly IAuthService _authService;
 
         public RegistrationLogInController(
             UserManager<User> userManager,
             RoleManager<IdentityRole<int>> roleManager,
-            DentalContext dentalContext
+            DentalContext dentalContext,
+            IAuthService authService
         )
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _dentalContext = dentalContext;
+            _authService = authService;
         }
 
         [HttpPost("register")]
         // [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel registerModel)
         {
-            if(!ModelState.IsValid)
+            try
             {
-                return BadRequest();
+                if(!ModelState.IsValid)
+                    return BadRequest();
+
+                var result = await _authService.Register(registerModel);
+                if(!result)
+                    return BadRequest();
+
+                return Ok(registerModel);
             }
-
-            //Todo Have Register View Model be changed
-            var userExist = await _userManager.FindByEmailAsync(registerModel.Email);
-            if(userExist != null)
+            catch(Exception ex)
             {
-                return BadRequest($"User {registerModel.Email} already exists");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
-            User newUser = new User()
-            {
-                //Todo Write user code
-            };
-            var result = await _userManager.CreateAsync(newUser, registerModel.Password);
-            if(result.Succeeded) 
-            {
-                await _userManager.AddToRoleAsync(newUser, Roles.Patient.ToString());
-                // return Unauthorized();
-                return Ok(newUser);
-            }
-
-            var errors = result.Errors;
-
-            // return Ok(registerModel);
-            return BadRequest(errors);
         }
 
         [HttpPost("login")]
         // [ValidateAntiForgeryToken]
-        public IActionResult Login([FromBody]LoginViewModel loginModel)
+        public async Task<IActionResult> Login([FromBody]LoginViewModel loginModel)
         {
             // SignIn(loginModel);
-            return Ok(loginModel);
+            try
+            {
+                if(!ModelState.IsValid)
+                    return BadRequest();
+
+                var result = await _authService.Login(loginModel);
+                if(!result)
+                    return BadRequest();
+                // Todo have token be sent to the front end client
+                return Ok(loginModel);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }
