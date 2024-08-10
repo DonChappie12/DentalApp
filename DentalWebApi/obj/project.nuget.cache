@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "e1kasw7vFOeLXlEcdyUxcuw892ZJ4Io8zkaHkfkOvD8zTPkPel0ir/WQVILj9SNWKObdDRaMiteznJ30sGifJQ==",
+  "dgSpecHash": "c6/ekxuXQOU1moI+WoZ6bmdXw8ru4dHZEmMJZBynYDP4wRw8bQDG45YyxLBD82MgIaaJUo7AryZ5SJvV7uiXaQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj",
+  "projectFilePath": "c:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\David\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\David\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

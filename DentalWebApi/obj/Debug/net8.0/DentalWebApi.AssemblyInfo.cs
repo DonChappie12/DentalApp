@@ -11,10 +11,11 @@ using System;
 using System.Reflection;
 
 [assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("d34b9bb8-8c40-41f9-91f1-cc3c087ed118")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("DentalWebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1152a2b6e8e6db61faae1369ac1ac371c803f63")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef4724858e56c9c63b832ac5576a5ba69bbabfe6")]
 [assembly: System.Reflection.AssemblyProductAttribute("DentalWebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DentalWebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

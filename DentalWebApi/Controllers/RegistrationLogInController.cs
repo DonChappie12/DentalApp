@@ -19,21 +19,10 @@ namespace DentalWebApi.Controllers
     public class RegistrationLogInController : ControllerBase
 
     {
-        private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
-        private readonly DentalContext _dentalContext;
         private readonly IAuthService _authService;
 
-        public RegistrationLogInController(
-            UserManager<User> userManager,
-            RoleManager<IdentityRole<int>> roleManager,
-            DentalContext dentalContext,
-            IAuthService authService
-        )
+        public RegistrationLogInController(IAuthService authService)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _dentalContext = dentalContext;
             _authService = authService;
         }
 

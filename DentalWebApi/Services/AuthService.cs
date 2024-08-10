@@ -16,10 +16,10 @@ namespace DentalWebApi.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthService(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthService(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;

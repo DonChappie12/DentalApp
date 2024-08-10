@@ -4,6 +4,7 @@ using DentalWebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -22,13 +23,13 @@ builder.Services.AddAuthentication(options =>
 {
     opts.SaveToken = true;
     // * Switch this to false if under development
-    opts.RequireHttpsMetadata = true;
+    opts.RequireHttpsMetadata = false;
     opts.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidIssuer = config["JwtSettings:Issuer"],
-        ValidAudience = config["JwtSettings:Audience"],
+        ValidIssuer = config["JwtSettings:ValidIssuer"],
+        ValidAudience = config["JwtSettings:ValidAudience"],
         // Todo Have Jwt settings key in a secrets management system (EX: Azure key vaults)
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Key"]!)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]!)),
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
@@ -39,7 +40,6 @@ builder.Services.AddAuthentication(options =>
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddTransient<IAuthService, AuthService>();
 
 // Connects to DB
 var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -57,7 +57,7 @@ builder.Services.AddIdentityApiEndpoints<User>(options =>
         options.Password.RequireNonAlphanumeric = true;
         options.Password.RequireUppercase = true;
         options.Password.RequiredLength = 6;
-        options.Password.RequiredUniqueChars = 1;
+        // options.Password.RequiredUniqueChars = 1;
     })
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<DentalContext>();
@@ -88,6 +88,8 @@ builder.Services.AddSwaggerGen(swagger =>
     });
 });
 
+builder.Services.AddTransient<IAuthService, AuthService>();
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
@@ -98,10 +100,15 @@ using (var scope = app.Services.CreateScope())
     // Set password with the Secret Manager tool.
     // dotnet user-secrets set SeedUserPW <pw>
 
-    // var testUserPw = builder.Configuration.GetValue<string>("SeedUserPW");
-    var testUserPw = "testPassword";
+    string? SuperAdminPass = builder.Configuration.GetValue<string>("Secrets:SuperAdminPass");
+    string? AdminPass = builder.Configuration.GetValue<string>("Secrets:AdminPass");
+    string? DoctorPass = builder.Configuration.GetValue<string>("Secrets:DoctorPass");
+    string? ManagerPass = builder.Configuration.GetValue<string>("Secrets:ManagerPass");
+    // var testUserPw = "testPassword";
+    List<string> testPWs = [SuperAdminPass, AdminPass, DoctorPass, ManagerPass];
+    
     // Todo uncomment below once a set direction for JWTs
-    // await DataSeeder.Initialize(services, testUserPw);
+    await DataSeeder.Initialize(services, testPWs);
 }
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

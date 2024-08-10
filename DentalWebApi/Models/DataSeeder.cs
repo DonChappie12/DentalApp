@@ -17,7 +17,7 @@ namespace DentalWebApi.Models
         {
             _dentalContext = dentalContext;
         }
-        public static async Task Initialize(IServiceProvider serviceProvider, string testUserPw)
+        public static async Task Initialize(IServiceProvider serviceProvider, List<string> testPw)
         {
             using (var context = new DentalContext(serviceProvider.GetRequiredService<DbContextOptions<DentalContext>>()))
             {
@@ -25,19 +25,28 @@ namespace DentalWebApi.Models
                 // Password is set with the following:
                 // dotnet user-secrets set SeedUserPW <pw>
                 // The admin user can do anything
-                //Todo Change Emails instead of @contoso.com 
+                //Todo Change Emails instead of @contoso.com
 
-                var superAdminID = await EnsureUser(serviceProvider, testUserPw, "superadmin@contoso.com");
-                await EnsureRole(serviceProvider, superAdminID, Roles.SuperAdmin.ToString());
+                foreach (Roles role in Enum.GetValues(typeof(Roles)))
+                {
+                    // Console.WriteLine(role.ToString());
+                }
 
-                var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@contoso.com");
-                await EnsureRole(serviceProvider, adminID, Roles.Admin.ToString());
+                // foreach(var pw in testPw)
+                // {
+                //     var userID = await EnsureUser(serviceProvider, pw, "");
+                // }
+                // var superAdminID = await EnsureUser(serviceProvider, testUserPw, "superadmin@contoso.com");
+                // await EnsureRole(serviceProvider, superAdminID, Roles.SuperAdmin.ToString());
 
-                var doctorID = await EnsureUser(serviceProvider, testUserPw, "doctor@contoso.com");
-                await EnsureRole(serviceProvider, doctorID, Roles.Doctor.ToString());
-                // allowed user can create and edit contacts that they create
-                var managerID = await EnsureUser(serviceProvider, testUserPw, "manager@contoso.com");
-                await EnsureRole(serviceProvider, managerID, Roles.Manager.ToString());
+                // var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@contoso.com");
+                // await EnsureRole(serviceProvider, adminID, Roles.Admin.ToString());
+
+                // var doctorID = await EnsureUser(serviceProvider, testUserPw, "doctor@contoso.com");
+                // await EnsureRole(serviceProvider, doctorID, Roles.Doctor.ToString());
+                // // allowed user can create and edit contacts that they create
+                // var managerID = await EnsureUser(serviceProvider, testUserPw, "manager@contoso.com");
+                // await EnsureRole(serviceProvider, managerID, Roles.Manager.ToString());
 
                 // Seed(context, adminID);
             }
@@ -71,7 +80,7 @@ namespace DentalWebApi.Models
 
         private static async Task<IdentityResult> EnsureRole(IServiceProvider serviceProvider, int uid, string role)
         {
-            var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
+            var roleManager = serviceProvider.GetService<RoleManager<IdentityRole<int>>>();
 
             if (roleManager == null)
             {
@@ -81,10 +90,10 @@ namespace DentalWebApi.Models
             IdentityResult IR;
             if (!await roleManager.RoleExistsAsync(role))
             {
-                IR = await roleManager.CreateAsync(new IdentityRole(role));
+                IR = await roleManager.CreateAsync(new IdentityRole<int>(role));
             }
 
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<User>>();
 
             //if (userManager == null)
             //{
@@ -103,6 +112,7 @@ namespace DentalWebApi.Models
             return IR;
         }
 
+        // *Technically we don't need this Seed method unless we want to populate data to present
         // public void Seed()
         // {
         //     // var userManager = ServiceProvider.GetService<UserManager<User>>();
