@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj": {}
+    "C:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj": {}
   },
   "projects": {
-    "c:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj": {
+    "C:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj",
+        "projectUniqueName": "C:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj",
         "projectName": "DentalWebApi",
-        "projectPath": "c:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj",
+        "projectPath": "C:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\DentalWebApi.csproj",
         "packagesPath": "C:\\Users\\David\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\obj\\",
+        "outputPath": "C:\\Users\\David\\OneDrive\\Documents\\Projects\\DentalApp\\DentalWebApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

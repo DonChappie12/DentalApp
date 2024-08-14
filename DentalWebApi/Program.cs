@@ -61,6 +61,8 @@ builder.Services.AddIdentityApiEndpoints<User>(options =>
     })
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<DentalContext>();
+    // .AddDefaultTokenProviders();
+    // .AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultAuthenticatorProvider);
 
 // * .Net 7 or below configuration if not using AddIdentityApiEndpoints
 // builder.Services.Configure<IdentityOptions>(options =>
@@ -96,19 +98,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<DentalContext>();
     context.Database.Migrate();
-    // requires using Microsoft.Extensions.Configuration;
-    // Set password with the Secret Manager tool.
-    // dotnet user-secrets set SeedUserPW <pw>
 
-    string? SuperAdminPass = builder.Configuration.GetValue<string>("Secrets:SuperAdminPass");
-    string? AdminPass = builder.Configuration.GetValue<string>("Secrets:AdminPass");
-    string? DoctorPass = builder.Configuration.GetValue<string>("Secrets:DoctorPass");
-    string? ManagerPass = builder.Configuration.GetValue<string>("Secrets:ManagerPass");
-    // var testUserPw = "testPassword";
-    List<string> testPWs = [SuperAdminPass, AdminPass, DoctorPass, ManagerPass];
-    
-    // Todo uncomment below once a set direction for JWTs
-    await DataSeeder.Initialize(services, testPWs);
+    await DataSeeder.Initialize(services, builder.Configuration);
 }
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -16,12 +16,12 @@ namespace DentalWebApi.Controllers
     [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
-    public class RegistrationLogInController : ControllerBase
+    public class AuthController : ControllerBase
 
     {
         private readonly IAuthService _authService;
 
-        public RegistrationLogInController(IAuthService authService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }
@@ -30,6 +30,7 @@ namespace DentalWebApi.Controllers
         // [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel registerModel)
         {
+            // TODO Have the user either confirm email or another way to confirm legitamicy
             try
             {
                 if(!ModelState.IsValid)
@@ -58,15 +59,25 @@ namespace DentalWebApi.Controllers
                     return BadRequest();
 
                 var result = await _authService.Login(loginModel);
-                if(!result)
-                    return BadRequest();
-                // Todo have token be sent to the front end client
-                return Ok(loginModel);
+                if(!result.IsLoggedIn)
+                    return BadRequest("Your user name or password are invalid");
+
+                return Ok(result);
             }
             catch(Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+
+        [HttpPost("RefreshToken")]
+        public async Task<IActionResult> RefreshToken(RefreshTokenViewModel model)
+        {
+            var result = await _authService.RefreshToken(model);
+            if(result.IsLoggedIn)
+                return Ok(result);
+
+            return Unauthorized();
         }
     }
 }

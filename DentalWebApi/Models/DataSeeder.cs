@@ -17,7 +17,7 @@ namespace DentalWebApi.Models
         {
             _dentalContext = dentalContext;
         }
-        public static async Task Initialize(IServiceProvider serviceProvider, List<string> testPw)
+        public static async Task Initialize(IServiceProvider serviceProvider, ConfigurationManager _config)
         {
             using (var context = new DentalContext(serviceProvider.GetRequiredService<DbContextOptions<DentalContext>>()))
             {
@@ -26,33 +26,39 @@ namespace DentalWebApi.Models
                 // dotnet user-secrets set SeedUserPW <pw>
                 // The admin user can do anything
                 //Todo Change Emails instead of @contoso.com
+                var roleManager = serviceProvider.GetService<RoleManager<IdentityRole<int>>>();
 
-                foreach (Roles role in Enum.GetValues(typeof(Roles)))
-                {
-                    // Console.WriteLine(role.ToString());
-                }
+                string? SuperAdminPass = _config.GetValue<string>("Secrets:SuperAdminPass");
+                string? AdminPass = _config.GetValue<string>("Secrets:AdminPass");
+                string? DoctorPass = _config.GetValue<string>("Secrets:DoctorPass");
+                string? ManagerPass = _config.GetValue<string>("Secrets:ManagerPass");
 
-                // foreach(var pw in testPw)
+                // foreach (Roles role in Enum.GetValues(typeof(Roles)))
                 // {
-                //     var userID = await EnsureUser(serviceProvider, pw, "");
+                //     // Console.WriteLine(role.ToString());
+                //     // if(!await roleManager.RoleExistsAsync(role.ToString()))
+                //     // {
+                //     //     continue;
+                //     // }
                 // }
-                // var superAdminID = await EnsureUser(serviceProvider, testUserPw, "superadmin@contoso.com");
-                // await EnsureRole(serviceProvider, superAdminID, Roles.SuperAdmin.ToString());
 
-                // var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@contoso.com");
-                // await EnsureRole(serviceProvider, adminID, Roles.Admin.ToString());
+                var superAdminID = await EnsureUser(serviceProvider, SuperAdminPass, "superadmin@contoso.com", Roles.SuperAdmin.ToString());
+                await EnsureRole(serviceProvider, superAdminID, Roles.SuperAdmin.ToString());
 
-                // var doctorID = await EnsureUser(serviceProvider, testUserPw, "doctor@contoso.com");
-                // await EnsureRole(serviceProvider, doctorID, Roles.Doctor.ToString());
-                // // allowed user can create and edit contacts that they create
-                // var managerID = await EnsureUser(serviceProvider, testUserPw, "manager@contoso.com");
-                // await EnsureRole(serviceProvider, managerID, Roles.Manager.ToString());
+                var adminID = await EnsureUser(serviceProvider, AdminPass, "admin@contoso.com", Roles.Admin.ToString());
+                await EnsureRole(serviceProvider, adminID, Roles.Admin.ToString());
+
+                var doctorID = await EnsureUser(serviceProvider, DoctorPass, "doctor@contoso.com", Roles.Doctor.ToString());
+                await EnsureRole(serviceProvider, doctorID, Roles.Doctor.ToString());
+                // allowed user can create and edit contacts that they create
+                var managerID = await EnsureUser(serviceProvider, ManagerPass, "manager@contoso.com", Roles.Manager.ToString());
+                await EnsureRole(serviceProvider, managerID, Roles.Manager.ToString());
 
                 // Seed(context, adminID);
             }
         }
 
-        private static async Task<int> EnsureUser(IServiceProvider serviceProvider, string testUserPw, string UserName)
+        private static async Task<int> EnsureUser(IServiceProvider serviceProvider, string rolePW, string UserName, string role)
         {
             var userManager = serviceProvider.GetService<UserManager<User>>();
 
@@ -65,9 +71,11 @@ namespace DentalWebApi.Models
                     // Id = 1,
                     UserName = UserName,
                     Email = UserName,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    FirstName = role,
+                    LastName = role,
                 };
-                await userManager.CreateAsync(user, testUserPw);
+                await userManager.CreateAsync(user, rolePW);
             }
 
             if (user == null)

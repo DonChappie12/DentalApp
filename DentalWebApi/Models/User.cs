@@ -12,5 +12,8 @@ namespace DentalWebApi.Models
         public string? MiddleName { get; set; }
         public string LastName { get; set; }
         public string? Address { get; set; }
+        // ? Probably remove these two fields once I can get the AspNetUsersTokens running
+        public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiry { get; set; }
     }
 }
