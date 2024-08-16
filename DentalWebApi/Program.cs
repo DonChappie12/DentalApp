@@ -77,6 +77,15 @@ builder.Services.AddIdentityApiEndpoints<User>(options =>
 // });
 
 builder.Services.AddAuthorization();
+var CorOriginName = "allowedPolicies";
+
+builder.Services.AddCors(options =>{
+    options.AddPolicy(CorOriginName, policy =>{
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -111,6 +120,8 @@ if (app.Environment.IsDevelopment())
 // app.MapIdentityApi<User>();
 
 app.UseHttpsRedirection();
+
+app.UseCors(CorOriginName);
 
 app.UseAuthentication();
 app.UseAuthorization();

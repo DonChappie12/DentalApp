@@ -1,0 +1,28 @@
+<p>login works!</p>
+<!-- <div class="flex flex-column gap-2"> -->
+  <!-- <p-inputGroup> -->
+    <form [formGroup]="loginCredentials" (ngSubmit)="SubmitCredentials()">
+      <label for="username">Username</label>
+      <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          formControlName="alias"/>
+      <small id="username-help">
+          Enter your username.
+      </small>
+      <label for="username">Password</label>
+      <p-password
+          id="password"
+          [toggleMask]="true"
+          [feedback]="false"
+          aria-describedby="password-help"
+          formControlName="password"/>
+      <small id="password-help">
+          Enter your password.
+      </small>
+
+      <p-button type="submit" [disabled]="!loginCredentials.valid">Submit</p-button>
+    </form>
+  <!-- </p-inputGroup> -->
+<!-- </div> -->

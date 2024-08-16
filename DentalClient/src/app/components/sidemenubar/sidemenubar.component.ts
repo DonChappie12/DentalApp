@@ -5,18 +5,29 @@ import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
+import { DialogModule } from 'primeng/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidemenubar',
   standalone: true,
-  imports: [PanelMenuModule, MenubarModule, ButtonModule, InputTextModule, CommonModule],
+  imports: [
+    PanelMenuModule,
+    MenubarModule,
+    ButtonModule,
+    InputTextModule,
+    CommonModule,
+    DialogModule
+  ],
   templateUrl: './sidemenubar.component.html',
   styleUrl: './sidemenubar.component.css'
 })
 
 export class SidemenubarComponent {
   menuItems: MenuItem[] = [];
-  isLoggedIn: boolean = true;
+  isLoggedIn: boolean = false;
+
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.menuItems = [
@@ -77,6 +88,14 @@ export class SidemenubarComponent {
         ]
       }
     ]
+  }
+
+  RedirectToLogin(urn: string){
+    this.router.navigate([`${urn}`])
+  }
+
+  OpenLoginDialog(){
+    console.log("Clicked on Login Dialog")
   }
 
 }

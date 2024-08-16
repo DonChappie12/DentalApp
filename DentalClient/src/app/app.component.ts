@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SidemenubarComponent } from './sidemenubar/sidemenubar.component';
+import { SidemenubarComponent } from './components/sidemenubar/sidemenubar.component';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
+import { BrowserModule } from '@angular/platform-browser';
+// import { ɵBrowserAnimationBuilder } from '@angular/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',

@@ -2,6 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.2.
 
+### Technologies
+NPM: 20.10.0
+Angular Calendar:
+Prime Flex: 3.3.1
+Prime NG: 17.5.0
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
