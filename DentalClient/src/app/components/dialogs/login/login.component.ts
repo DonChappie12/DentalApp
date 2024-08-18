@@ -1,27 +1,24 @@
 import { Component } from '@angular/core';
-import { InputTextModule } from 'primeng/inputtext';
-import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PasswordModule } from 'primeng/password';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { AuthserviceService } from '../../services/authorization/authservice.service';
-import { LoginViewModel } from '../../../model/viewModel/loginViewModel';
-import { LoginResponse } from '../../../model/response/loginResponse';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'
+import { AuthserviceService } from '../../../services/authorization/authservice.service';
+import { LoginResponse } from '../../../../model/response/loginResponse';
 import { HttpErrorResponse } from '@angular/common/http';
-// import { FloatLabelModule } from 'primeng/floatlabel';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    ButtonModule,
     InputTextModule,
     ReactiveFormsModule,
     FormsModule,
-    ButtonModule,
     PasswordModule,
     InputGroupModule,
     InputGroupAddonModule
@@ -32,7 +29,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class LoginComponent {
 
   loginCredentials;
-  constructor(private formBuilder: FormBuilder, private auth: AuthserviceService) {
+
+  constructor(public ref: DynamicDialogRef, private formBuilder: FormBuilder, private auth: AuthserviceService) {
     this.loginCredentials = this.formBuilder.group({
       alias: ['', Validators.required],
       password: ['', Validators.required]
@@ -53,5 +51,13 @@ export class LoginComponent {
       console.log('Error: ' + error.error)
     }});
     // console.log(res)
+    // TODO Have a spinner or something to letclient know that it is trying to sign in
+
+    this.closeDialog()
   }
+
+  closeDialog(){
+    this.ref.close()
+  }
+
 }

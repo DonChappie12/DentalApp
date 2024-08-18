@@ -7,6 +7,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { Router } from '@angular/router';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { TestDialogComponent } from '../dialogs/test-dialog.component';
+import { LoginComponent } from '../dialogs/login/login.component';
 
 @Component({
   selector: 'app-sidemenubar',
@@ -26,8 +29,11 @@ import { Router } from '@angular/router';
 export class SidemenubarComponent {
   menuItems: MenuItem[] = [];
   isLoggedIn: boolean = false;
+  ref: DynamicDialogRef | undefined;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    public dialogService: DialogService) {}
 
   ngOnInit() {
     this.menuItems = [
@@ -95,6 +101,18 @@ export class SidemenubarComponent {
   }
 
   OpenLoginDialog(){
+    // this.testDialog.showDialog();
+    this.ref = this.dialogService.open(LoginComponent, {
+      header: 'Login',
+      width: '50vw',
+      modal:true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      },
+    })
+
+    // this.ref.onClose.subscribe()
     console.log("Clicked on Login Dialog")
   }
 

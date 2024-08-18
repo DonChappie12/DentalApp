@@ -6,9 +6,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { DialogService } from 'primeng/dynamicdialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    DialogService,
     provideAnimations(),
     provideRouter(routes),
     importProvidersFrom(HttpClientModule)
