@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TestDialogComponent } from '../dialogs/test-dialog.component';
 import { LoginComponent } from '../dialogs/login/login.component';
+import { AuthserviceService } from '../../services/authorization/authservice.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidemenubar',
@@ -28,18 +30,22 @@ import { LoginComponent } from '../dialogs/login/login.component';
 
 export class SidemenubarComponent {
   menuItems: MenuItem[] = [];
-  isLoggedIn: boolean = false;
+  isLoggedIn: Observable<boolean>;
   ref: DynamicDialogRef | undefined;
 
   constructor(
     private router: Router,
-    public dialogService: DialogService) {}
+    public dialogService: DialogService,
+    private authService: AuthserviceService
+  ) {
+    this.isLoggedIn = authService.isLoggedIn();
+  }
 
   ngOnInit() {
     this.menuItems = [
       {
         label: 'Main Page',
-        routerLink: ['/Dashboard']
+        routerLink: ['/dashboard']
       },
       {
         label: 'Front Desk',
@@ -96,12 +102,7 @@ export class SidemenubarComponent {
     ]
   }
 
-  RedirectToLogin(urn: string){
-    this.router.navigate([`${urn}`])
-  }
-
   OpenLoginDialog(){
-    // this.testDialog.showDialog();
     this.ref = this.dialogService.open(LoginComponent, {
       header: 'Login',
       width: '50vw',
@@ -112,8 +113,13 @@ export class SidemenubarComponent {
       },
     })
 
-    // this.ref.onClose.subscribe()
-    console.log("Clicked on Login Dialog")
+    // TODO Pass data to reflect if successful login variable isLoggedIn is true but reflecting on front end
+
+  }
+
+  logOutUser(){
+    console.log("Logged out")
+    this.authService.logoutUser();
   }
 
 }

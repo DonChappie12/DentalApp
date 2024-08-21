@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DentalWebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2931c8e3c179ceb3c5b4f28407d2dba063ba665a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c83d20127e906f3c8fdc2cf746960a39efd1f405")]
 [assembly: System.Reflection.AssemblyProductAttribute("DentalWebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DentalWebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

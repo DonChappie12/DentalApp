@@ -9,6 +9,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule, F
 import { AuthserviceService } from '../../../services/authorization/authservice.service';
 import { LoginResponse } from '../../../../model/response/loginResponse';
 import { HttpErrorResponse } from '@angular/common/http';
+// import { LoginViewModel } from '../../../../model/viewModel/loginViewModel';
 
 
 @Component({
@@ -28,7 +29,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class LoginComponent {
 
-  loginCredentials;
+  loginCredentials: FormGroup;
 
   constructor(public ref: DynamicDialogRef, private formBuilder: FormBuilder, private auth: AuthserviceService) {
     this.loginCredentials = this.formBuilder.group({
@@ -40,23 +41,20 @@ export class LoginComponent {
   SubmitCredentials() {
     console.log("Submitting Creds")
     this.auth.loginUser<LoginResponse>(this.loginCredentials.value)
-    // .subscribe((res: any) => {
-    //   console.log(res.jwtToken)
-    // })
     .subscribe({
       next: (data: any) => {
-      console.log('Data: ' + data.jwtToken)
+      this.auth.setStorage(data)
     },
     error: (error: HttpErrorResponse) => {
       console.log('Error: ' + error.error)
     }});
-    // console.log(res)
     // TODO Have a spinner or something to letclient know that it is trying to sign in
 
     this.closeDialog()
   }
 
   closeDialog(){
+    console.log("Closing from login component")
     this.ref.close()
   }
 
