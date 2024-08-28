@@ -45,6 +45,7 @@ export class SidemenubarComponent {
     this.menuItems = [
       {
         label: 'Main Page',
+        // route: '/dashboard'
         routerLink: ['/dashboard']
       },
       {
@@ -52,10 +53,12 @@ export class SidemenubarComponent {
         items: [
           {
             label: 'Create an Appoinment',
+            // route: '/appointment-creation'
             routerLink: ['/appointment-creation']
           },
           {
             label: 'Calendar',
+            // route: '/calendar'
             routerLink: ['/calendar']
           }
         ]
@@ -65,14 +68,17 @@ export class SidemenubarComponent {
         items: [
           {
             label: 'Schedule',
+            // route: '/random-endpoint'
             routerLink: ['/random-endpoint']
           },
           {
             label: 'Special Cases',
+            // route: '/random-endpoint'
             routerLink: ['/random-endpoint']
           },
           {
             label: 'Surgery',
+            // route: '/random-endpoint'
             routerLink: ['/random-endpoint']
           }
         ]
@@ -82,10 +88,12 @@ export class SidemenubarComponent {
         items: [
           {
             label: 'Schedule',
+            // route: '/random-endpoint'
             routerLink: ['/random-endpoint']
           },
           {
             label: 'Special Cases',
+            // route: '/random-endpoint'
             routerLink: ['/random-endpoint']
           }
         ]
@@ -95,6 +103,7 @@ export class SidemenubarComponent {
         items: [
           {
             label: 'Schedule',
+            // route: '/random-endpoint'
             routerLink: ['/random-endpoint']
           }
         ]

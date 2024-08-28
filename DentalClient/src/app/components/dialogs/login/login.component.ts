@@ -9,6 +9,12 @@ import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule, F
 import { AuthserviceService } from '../../../services/authorization/authservice.service';
 import { LoginResponse } from '../../../../model/response/loginResponse';
 import { HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs';
+import { ErrorHandlerService } from '../../../services/error-handler/error-handler.service';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CommonModule } from '@angular/common';
+import { MessagesModule } from 'primeng/messages';
+import { Message } from 'primeng/api';
 // import { LoginViewModel } from '../../../../model/viewModel/loginViewModel';
 
 
@@ -16,13 +22,16 @@ import { HttpErrorResponse } from '@angular/common/http';
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     ButtonModule,
     InputTextModule,
     ReactiveFormsModule,
     FormsModule,
     PasswordModule,
     InputGroupModule,
-    InputGroupAddonModule
+    InputGroupAddonModule,
+    ProgressSpinnerModule,
+    MessagesModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -30,8 +39,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class LoginComponent {
 
   loginCredentials: FormGroup;
+  error: string = '';
+  isProgressBarVisible: boolean = false;
+  errorMessages: Message[] = [];
 
-  constructor(public ref: DynamicDialogRef, private formBuilder: FormBuilder, private auth: AuthserviceService) {
+  constructor(
+    public ref: DynamicDialogRef,
+    private formBuilder: FormBuilder,
+    private auth: AuthserviceService,
+    private errorHandler: ErrorHandlerService
+  ) {
     this.loginCredentials = this.formBuilder.group({
       alias: ['', Validators.required],
       password: ['', Validators.required]
@@ -39,18 +56,29 @@ export class LoginComponent {
   }
 
   SubmitCredentials() {
+    this.isProgressBarVisible = true;
     console.log("Submitting Creds")
     this.auth.loginUser<LoginResponse>(this.loginCredentials.value)
     .subscribe({
       next: (data: any) => {
       this.auth.setStorage(data)
+      this.closeDialog()
     },
     error: (error: HttpErrorResponse) => {
-      console.log('Error: ' + error.error)
-    }});
-    // TODO Have a spinner or something to letclient know that it is trying to sign in
+      // console.log(error)
+      // console.log('Error: ' + error.error)
+      // TODO Investigate which would be a better option to handle error
 
-    this.closeDialog()
+      // catchError(error.error)
+      this.error = this.errorHandler.handle(error)
+
+      this.errorMessages = [
+        {severity: 'error', detail: this.error}
+      ]
+      console.log(this.error)
+    }});
+    // TODO Have a spinner or something to let client know that it is trying to sign in
+    this.isProgressBarVisible = false;
   }
 
   closeDialog(){

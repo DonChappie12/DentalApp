@@ -1,5 +1,29 @@
 <div>
   <p-menubar [model]="menuItems">
+    <!-- TODO Have this be dynamic when a user is ina certain role -->
+    <!-- <ng-template pTemplate="item" let-item>
+      <ng-container *ngIf="item.route">
+      <ng-container *ngIf="item.route; else urlRef">
+          <a [routerLink]="item.route" class="p-menuitem-link">
+              <span [class]="item.icon"></span>
+              <span class="ml-2">{{ item.label }}</span>
+          </a>
+      </ng-container>
+      <ng-template #urlRef>
+          <a *ngIf="item.url; else noLink" [href]="item.url" class="p-menuitem-link">
+              <span [class]="item.icon"></span>
+              <span class="ml-2">{{ item.label }}</span>
+          </a>
+      </ng-template>
+      <ng-template #noLink>
+          <div class="p-menuitem-link">
+              <span [class]="item.icon"></span>
+              <span class="ml-2">{{ item.label }}</span>
+              <span class="pi pi-fw pi-angle-down ml-2"></span>
+          </div>
+      </ng-template>
+    </ng-template> -->
+    <!-- * In a static view to display all links -->
     <div>
       <input type="text" pInputText placeholder="Search">
       <button *ngIf="(isLoggedIn | async); else loggedOut" type="button" (click)="logOutUser()" pButton label="Logout" icon="pi pi-power-off" style="margin-left:.25em"></button>

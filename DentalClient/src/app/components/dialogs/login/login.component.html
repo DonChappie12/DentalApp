@@ -1,5 +1,6 @@
-<p>login works!</p>
+
 <!-- <ng-template pTemplate="headless"> -->
+  <!-- <p-progressSpinner ariaLabel="loading" *ngIf="isProgressBarVisible" strokeWidth="5"/> -->
   <div class="flex flex-column px-8 py-5 gap-4">
     <form [formGroup]="loginCredentials" (ngSubmit)="SubmitCredentials()">
       <div class="inline-flex flex-column gap-2">
@@ -30,5 +31,11 @@
           <p-button label="Cancel" (onClick)="closeDialog()" [text]="true"  styleClass="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10" class="w-full" />
       </div>
     </form>
+  </div>
+  <div>
+    <p-messages
+    [(value)]="errorMessages"
+    [enableService]="false"
+    [closable]="false" />
   </div>
 <!-- </ng-template> -->
