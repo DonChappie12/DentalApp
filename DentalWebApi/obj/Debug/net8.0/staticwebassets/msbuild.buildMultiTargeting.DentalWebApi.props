@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\DentalWebApi.props" />
-</Project>

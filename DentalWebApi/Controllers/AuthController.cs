@@ -27,7 +27,6 @@ namespace DentalWebApi.Controllers
         }
 
         [HttpPost("register")]
-        // [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel registerModel)
         {
             // TODO Have the user either confirm email or another way to confirm legitamicy
@@ -49,10 +48,8 @@ namespace DentalWebApi.Controllers
         }
 
         [HttpPost("login")]
-        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([FromBody]LoginViewModel loginModel)
         {
-            // SignIn(loginModel);
             try
             {
                 if(!ModelState.IsValid)
